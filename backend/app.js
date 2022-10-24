@@ -9,12 +9,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
-var categoryRouter = require('./routes/admin/category');
-var bookRouter = require('./routes/admin/book');
-var authorRouter = require('./routes/admin/author');
+var adminCategoryRouter = require('./routes/admin/category');
+var adminBookRouter = require('./routes/admin/book');
+var adminAuthorRouter = require('./routes/admin/author');
 var app = express();
 
 // view engine setup
@@ -30,9 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/category', categoryRouter);
-app.use('/book', bookRouter);
-app.use('/author', authorRouter);
+app.use('/admin/category', adminCategoryRouter);
+app.use('/admin/book', adminBookRouter);
+app.use('/admin/author', adminAuthorRouter);
+
+//run seeders
+const {superAdmin} = require('./seeders/admin');
+superAdmin();
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

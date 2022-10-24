@@ -1,6 +1,7 @@
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
+  
     if (req.user.role == 'admin' || req.user.role == 'super-admin') {
       next();
     } else {

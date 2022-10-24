@@ -1,11 +1,12 @@
 var jwt = require('jsonwebtoken');
 const { PRIVATE_KEY } = process.env;
-
-module.exports = (req, res, next) => {
+const User = require("../../models/user");
+module.exports = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     let user = jwt.verify(token, PRIVATE_KEY);
-    req.user = user;
+    let userX = await User.findById(user._id).select('-password')
+    req.user = userX;
     next();
   } catch (error) {
     console.log("auth error", error);
